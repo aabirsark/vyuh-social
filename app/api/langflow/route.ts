@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer AstraCS:UZZQUeYJYjFUCbWvSZIUnNGP:c3562232a1af346af32dd0702e60c884509bc208af9fcdf4812526aec4521f95`,
+          Authorization: `Bearer AstraCS:memXGujFPPyZSkAyRwjoWKXf:6e5ea1855fb1dbe65f11c6104b16f1bdf38d9a5ef3440b0628467e8b4b646191`,
         },
         body: JSON.stringify({
           input_value: inputValue,
