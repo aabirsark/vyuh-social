@@ -7,8 +7,8 @@ import { Suggestions } from "./components/Suggestions";
 import { ChatInput } from "./components/ChatInput";
 import { DottedBackground } from "./components/DottedBackground";
 import { runLangflow } from "./services/langflowService";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { NameDialog } from "./components/NameDialog";
+import { Sidebar } from "./components/Sidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -113,39 +113,37 @@ export default function Home() {
       <DottedBackground />
 
       {messages.length > 0 && (
-        <div className="fixed top-0 left-0 right-0 backdrop-blur-md bg-black/50 border-b border-zinc-800/50 z-10">
-          <div className="max-w-[1000px] mx-auto px-4 py-4 relative">
-            <div className="flex items-center justify-between">
-              <div className="w-24" />
-              <h1 className="text-xl font-serif tracking-wide text-white">
-                VYŪHA
-              </h1>
-              <button
-                onClick={handleClearChat}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-zinc-800/50 transition-colors"
-                title="Clear chat"
-              >
-                <span className="text-sm text-gray-400">Clear chat</span>
-                <TrashIcon className="w-4 h-4 text-gray-400" />
-              </button>
+        <>
+          <Sidebar onClearChat={handleClearChat} />
+          <div className="fixed top-0 left-0 right-0 backdrop-blur-md bg-black/50 border-b border-zinc-800/50 z-10 md:left-64">
+            <div className="max-w-[1200px] mx-auto px-4 py-4 relative">
+              <div className="flex items-center justify-center">
+                <h1 className="text-lg font-semibold tracking-tight text-white/90 uppercase">
+                  Social Media Intelligence
+                </h1>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
-      <div className="flex-1 overflow-y-auto p-4 pb-32 relative max-w-[1000px] mx-auto w-full scroll-smooth no-scrollbar">
+      <div
+        className={`flex-1 overflow-y-auto p-4 relative mx-auto w-full scroll-smooth no-scrollbar ${
+          messages.length > 0 ? "md:pl-64" : ""
+        } max-w-[1200px]`}
+      >
         {messages.length === 0 ? (
           <Welcome />
         ) : (
-          <div className="space-y-6 px-4 md:px-8 mt-16">
+          <div className="space-y-6 px-1 md:px-2 mt-16 pb-32">
             {messages.map((message, index) => (
               <Message
                 key={index}
                 {...message}
-                isNew={message.isNew}
                 userName={
                   message.role === "user" ? userName || undefined : undefined
                 }
+                isLastMessage={index === messages.length - 1}
               />
             ))}
             {error && (
@@ -153,18 +151,21 @@ export default function Home() {
                 {error}
               </div>
             )}
-            <div ref={messagesEndRef} />
           </div>
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent pt-2 z-10">
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-gradient-to-t pt-32 pb-6 z-10 ${
+          messages.length > 0 ? "md:left-64" : ""
+        }`}
+      >
         {messages.length === 0 && (
-          <div className="max-w-[1000px] mx-auto px-4">
+          <div className="max-w-[1200px] mx-auto px-4">
             <Suggestions onSuggestionClick={handleSuggestionClick} />
           </div>
         )}
-        <div className="max-w-[1000px] mx-auto px-4 pb-6">
+        <div className="max-w-[1200px] mx-auto px-4">
           <ChatInput
             input={input}
             onInputChange={(e) => setInput(e.target.value)}
