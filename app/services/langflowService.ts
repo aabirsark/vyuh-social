@@ -10,17 +10,21 @@ export class LangflowClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async post(endpoint: string, body: any) {
     try {
-      const response = await fetch("/api/langflow", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          flowId: "b6e2d730-5bd6-4a31-9e47-64b6ae4319cb",
-          langflowId: "75d41264-dbce-4c5c-9d33-3deb76cacfe9",
-          ...body,
-        }),
-      });
+      const response = await fetch(
+        "https://api.langflow.astra.datastax.com/lf/75d41264-dbce-4c5c-9d33-3deb76cacfe9/api/v1/run/vyuha?stream=false",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer AstraCS:memXGujFPPyZSkAyRwjoWKXf:6e5ea1855fb1dbe65f11c6104b16f1bdf38d9a5ef3440b0628467e8b4b646191`,
+          },
+          body: JSON.stringify({
+            flowId: "b6e2d730-5bd6-4a31-9e47-64b6ae4319cb",
+            langflowId: "75d41264-dbce-4c5c-9d33-3deb76cacfe9",
+            ...body,
+          }),
+        }
+      );
 
       const responseMessage = await response.json();
       if (!response.ok) {
